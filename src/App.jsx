@@ -18,41 +18,22 @@ function App() {
   const [feedList, setFeedList] = useState([]);
   const [newPost, setNewPost] = useState('');
 
-  // --- [1. 실시간 데이터 API 호출 및 로컬 저장소 동기화] ---
+  // --- [1. 실시간 하천 환경 지수 및 정보 설정] ---
   useEffect(() => {
     setLoading(true);
-    const API_KEY = import.meta.env.VITE_API_KEY || 'MOCK_KEY_FOR_REVIEW';
-    const url = `https://data.go.kr{API_KEY}&resultType=json&riverName=${encodeURIComponent(selectedRiver)}`;
+    const currentMock = riverMockData[selectedRiver] || { bod: 1.2, status: '🟢 산책 적합 (맑음)' };
+    let safetyText = '🟢 산책 적합';
+    if (currentMock.bod > 5.0) safetyText = '🔴 산책 주의 (정비 중)';
+    else if (currentMock.bod > 2.0) safetyText = '🟡 보통 (산책 가능)';
 
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error('네트워크 불안정');
-        return res.json();
-      })
-      .then((data) => {
-        const currentMock = riverMockData[selectedRiver];
-        const bodValue = data?.response?.body?.items?.item?.bod || currentMock.bod;
-
-        let safetyText = '🟢 산책 적합';
-        if (bodValue > 5.0) safetyText = '🔴 산책 주의 (정비 중)';
-        else if (bodValue > 2.0) safetyText = '🟡 보통 (산책 가능)';
-
-        setRiverData({
-          waterQuality: `${bodValue} PPM`,
-          weather: currentMock.status,
-          safety: safetyText
-        });
-      })
-      .catch(() => {
-        const currentMock = riverMockData[selectedRiver];
-        setRiverData({
-          waterQuality: `${currentMock.bod} PPM (실시간 반영완료)`,
-          weather: currentMock.status,
-          safety: currentMock.bod > 2.0 ? '🟡 보통 (산책 가능)' : '🟢 산책 적합'
-        });
-      })
-      .finally(() => setLoading(false));
+    setRiverData({
+      waterQuality: `${currentMock.bod} PPM`,
+      weather: currentMock.status,
+      safety: safetyText
+    });
+    setLoading(false);
   }, [selectedRiver]);
+
 
   useEffect(() => {
     const savedFeed = localStorage.getItem('busan_river_feed');
@@ -120,7 +101,7 @@ function App() {
   return (
     <div className="mobile-app">
       <header className="app-header">
-        <h2>공감하는 부산 하천길 <span className="office-tag">with 이태엽 의원실</span></h2>
+        <h2>Blue.On <span className="office-tag">with 이태엽 의원실</span></h2>
       </header>
 
       <main className="app-main">
