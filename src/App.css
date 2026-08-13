@@ -1,227 +1,699 @@
-/* --- [1. 글로벌 뷰포트 레이아웃 락: 가로 스크롤 원천 숨김] --- */
-html, body {
-  max-width: 100% !important;
-  overflow-x: hidden !important; 
-  box-sizing: border-box !important;
-  margin: 0;
-  padding: 0;
-  background-color: #f1f5f9;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #1f2937;
-  -webkit-font-smoothing: antialiased;
-}
+/* ==========================================================================
+   Toss-Style UI/UX Design System for Busan River App
+   ========================================================================== */
 
-*, *:before, *:after {
-  box-sizing: border-box !important;
-}
-
-/* --- [2. 모바일 디바이스 가로 폭 절대 고정 컨테이너] --- */
+/* --- [1. Application Main Container & Responsive Layout] --- */
 .mobile-app {
-  width: 100% !important;
-  max-width: 450px !important; 
-  margin: 0 auto !important;   
+  width: 100%;
+  max-width: 720px;
   min-height: 100vh;
-  background: #ffffff;
-  padding-bottom: 90px; 
+  margin: 0 auto;
+  background: var(--toss-bg);
+  padding-bottom: 100px;
   position: relative;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
-  overflow-x: hidden !important;
 }
 
-/* --- [3. 상단 헤더 및 드롭다운 인라인 정렬] --- */
+@media (min-width: 768px) {
+  .mobile-app {
+    margin: 24px auto;
+    min-height: calc(100vh - 48px);
+    border-radius: var(--toss-radius-lg);
+    box-shadow: var(--toss-shadow-lg);
+    border: 1px solid var(--toss-border-dark);
+    overflow: hidden;
+  }
+}
+
+/* --- [2. Toss Sticky Glassmorphism Header] --- */
 .app-header {
-  background: #ffffff;
-  padding: 16px;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 18px 24px;
   position: sticky;
   top: 0;
-  z-index: 10;
-  border-bottom: 1px solid #e2e8f0;
-  width: 100% !important;
-  box-sizing: border-box !important;
+  z-index: 100;
+  border-bottom: 1px solid rgba(229, 232, 235, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .app-header h2 {
-  margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
+  color: var(--toss-text-main);
   letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
 }
+
 .office-tag {
-  display: inline-block;
-  font-size: 11px;
-  background: #eff6ff;
-  color: #1a56db;
-  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--toss-blue-light);
+  color: var(--toss-blue);
+  padding: 4px 10px;
   border-radius: 20px;
-  margin-left: 4px;
-  font-weight: 600;
+  letter-spacing: -0.3px;
 }
-.river-selector-container select {
-  padding: 12px 16px; 
-  border-radius: 12px; 
-  border: 1px solid #cbd5e1; 
-  font-size: 13px; 
-  font-weight: 700; 
-  width: 100%; 
-  background: #f8fafc; 
-  color: #1e3a8a;
-  outline: none;
+
+/* --- [3. River Selector Dropdown & Segmented Bar] --- */
+.river-selector-container {
+  width: 100%;
   margin-top: 4px;
 }
 
-/* --- [4. 본문 프레임 및 페이드 애니메이션] --- */
-.app-main {
-  padding: 16px;
-  flex: 1;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-.tab-panel {
-  animation: appFadeIn 0.3s ease;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-@keyframes appFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+.river-selector-container select {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: var(--toss-radius-md);
+  border: 1.5px solid var(--toss-border-dark);
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: var(--toss-text-main);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%3C%236b7684' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  box-shadow: var(--toss-shadow-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- [5. 탭 1: 실시간 하천 비주얼 컴포넌트] --- */
-.card {
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
+.river-selector-container select:hover {
+  border-color: var(--toss-blue);
+  box-shadow: 0 4px 12px rgba(49, 130, 246, 0.12);
+}
+
+.river-selector-container select:focus {
+  border-color: var(--toss-blue);
+  box-shadow: 0 0 0 3px rgba(49, 130, 246, 0.2);
+}
+
+/* --- [4. Main Content Area & Tab Transitions] --- */
+.app-main {
   padding: 20px;
-  border-radius: 16px;
-  margin-bottom: 14px;
-  width: 100% !important;
-  box-sizing: border-box !important;
+  flex: 1;
 }
-.card h3 { margin: 0 0 14px 0; font-size: 14px; font-weight: 700; }
-.safety-alert-banner {
-  background: #fff5f5;
-  border: 1px solid #fee2e2;
-  color: #ef4444;
-  padding: 14px;
-  border-radius: 14px;
-  font-size: 12px;
-  font-weight: 600;
+
+.tab-panel {
+  animation: tossSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@keyframes tossSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- [5. Toss Card Design Token Component] --- */
+.card, .toss-card {
+  background: var(--toss-card-bg);
+  border-radius: var(--toss-radius-lg);
+  padding: 24px;
+  box-shadow: var(--toss-shadow-md);
+  border: 1px solid rgba(229, 232, 235, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover, .toss-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--toss-shadow-lg);
+}
+
+.card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--toss-text-sub);
   margin-bottom: 16px;
-  line-height: 1.5;
-  width: 100% !important;
-  box-sizing: border-box !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+
+/* --- [6. Safety Alert Banner] --- */
+.safety-alert-banner {
+  background: var(--toss-danger-bg);
+  border: 1px solid rgba(240, 68, 56, 0.2);
+  color: var(--toss-danger);
+  padding: 16px 20px;
+  border-radius: var(--toss-radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  box-shadow: var(--toss-shadow-sm);
+}
+
+.safety-alert-banner .alert-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* --- [7. Hero Metric Display (Toss Financial Style)] --- */
+.hero-metric-box {
+  margin: 12px 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-metric-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--toss-text-muted);
+}
+
+.hero-metric-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hero-metric-value {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.hero-metric-badge {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--toss-border);
+}
+
 .status-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 4px 0;
 }
-.status-item:last-child { border-bottom: none; }
-.status-item .label { font-size: 13px; color: #6b7280; }
-.status-item .value { font-size: 14px; font-weight: 600; }
-.badge-green { color: #10b981; font-weight: 700; }
-.info-card h4 { margin: 0 0 6px 0; font-size: 13px; color: #1a56db; }
-.info-card p { margin: 0; font-size: 12px; color: #6b7280; line-height: 1.5; }
 
-/* --- [6. 탭 2: 상생 지도 및 인라인 쿠폰] --- */
+.status-item .label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--toss-text-sub);
+}
+
+.status-item .value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--toss-text-main);
+}
+
+/* Status Badges */
+.badge-green {
+  background: var(--toss-success-bg);
+  color: var(--toss-success);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.badge-yellow {
+  background: var(--toss-warning-bg);
+  color: var(--toss-warning);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.badge-red {
+  background: var(--toss-danger-bg);
+  color: var(--toss-danger);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Legislative Info Card */
+.info-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f4f8ff 100%);
+  border: 1px solid var(--toss-blue-light);
+}
+
+.info-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--toss-blue);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-card p {
+  font-size: 14px;
+  color: var(--toss-text-sub);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* --- [8. 탭 2: 상생 지도 & 쿠폰 컴포넌트] --- */
 .map-placeholder {
-  background: #f1f5f9;
-  height: 180px;
+  background: linear-gradient(135deg, #eef5ff 0%, #e6f0ff 100%);
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 20px;
-  border: 1px dashed #cbd5e1;
+  border-radius: var(--toss-radius-lg);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(49, 130, 246, 0.05);
+  border: 1px solid rgba(49, 130, 246, 0.15);
 }
-.map-placeholder span { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+.map-pin-pulse {
+  width: 48px;
+  height: 48px;
+  background: var(--toss-blue-light);
+  color: var(--toss-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(49, 130, 246, 0.25);
+  animation: mapPulse 2s infinite ease-in-out;
+}
+
+@keyframes mapPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(49, 130, 246, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 14px rgba(49, 130, 246, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(49, 130, 246, 0); }
+}
+
+.map-placeholder strong {
+  font-size: 15px;
+  color: var(--toss-text-main);
+  font-weight: 700;
+}
+
+.map-placeholder span {
+  font-size: 12px;
+  color: var(--toss-blue);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.coupon-section-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--toss-text-main);
+  margin: 12px 0 8px 0;
+}
+
+.coupon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .coupon-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
-  border: 1px solid #f1f5f9;
-  padding: 14px;
-  border-radius: 14px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
-}
-.coupon-item strong { font-size: 13px; color: #1f2937; }
-.coupon-item p { margin: 2px 0 0 0; font-size: 12px; color: #1a56db; font-weight: 600; }
-.coupon-item button {
-  background: #1a56db; color: white; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+  background: var(--toss-card-bg);
+  border: 1px solid var(--toss-border-dark);
+  padding: 18px 20px;
+  border-radius: var(--toss-radius-md);
+  box-shadow: var(--toss-shadow-sm);
+  transition: all 0.2s ease;
 }
 
-/* --- [7. 탭 3: 친환경 플로깅 미션 최적화] --- */
-.text-center { text-align: center; }
-.sub-text { font-size: 12px; color: #6b7280; line-height: 1.5; margin-bottom: 16px; padding: 0 8px; word-break: keep-all; }
+.coupon-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--toss-shadow-md);
+  border-color: rgba(49, 130, 246, 0.3);
+}
+
+.coupon-info strong {
+  font-size: 15px;
+  color: var(--toss-text-main);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.coupon-info p {
+  font-size: 13px;
+  color: var(--toss-blue);
+  font-weight: 600;
+}
+
+.coupon-item button {
+  background: var(--toss-blue);
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--toss-radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.coupon-item button:hover {
+  background: var(--toss-blue-hover);
+  transform: scale(1.02);
+}
+
+.coupon-item button:active {
+  transform: scale(0.97);
+}
+
+.coupon-item button.issued {
+  background: var(--toss-success-bg);
+  color: var(--toss-success);
+  cursor: default;
+  font-weight: 700;
+}
+
+/* --- [9. 탭 3: 플로깅 미션 업로드 UI] --- */
+.upload-card {
+  text-align: center;
+}
+
+.sub-text {
+  font-size: 14px;
+  color: var(--toss-text-sub);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
 .upload-container {
-  border: 2px dashed #e2e8f0;
-  padding: 30px 16px;
-  border-radius: 16px;
-  background: #f8fafc;
-  margin-bottom: 14px;
+  border: 2px dashed var(--toss-border-dark);
+  padding: 36px 20px;
+  border-radius: var(--toss-radius-lg);
+  background: #fafbfc;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-.upload-placeholder { font-size: 12px; color: #6b7280; font-weight: 500; }
-.preview-img { width: 100%; max-width: 260px; height: auto; max-height: 140px; object-fit: cover; border-radius: 12px; }
-#file-upload { display: none; }
-.btn-upload { background: #1f2937; color: white; padding: 10px 20px; border-radius: 10px; display: inline-block; cursor: pointer; font-size: 12px; font-weight: 600; margin-top: 12px; }
-.mission-success-box {
-  background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 12px; margin-top: 14px; width: 100% !important; box-sizing: border-box !important;
+  justify-content: center;
+  gap: 16px;
+  transition: all 0.2s ease;
 }
 
-/* --- [8. 탭 4: 주민 제보함 블랙 텍스트 패키지] --- */
-.office-box { background: #eff6ff; border-radius: 12px; padding: 14px; font-size: 12px; margin-bottom: 16px; line-height: 1.5; }
-.office-box strong { color: #1a56db; display: block; margin-bottom: 2px; }
-.board-form { display: flex; gap: 8px; margin-bottom: 16px; }
-.board-form input { 
-  flex: 1; 
-  padding: 12px; 
-  border: 1px solid #e2e8f0; 
-  border-radius: 12px; 
-  font-size: 13px; 
-  background-color: #f8fafc !important; 
-  color: #000000 !important; /* [보완] 입력 글씨 딥블랙 강제 지정 */
-  font-weight: 600 !important;
+.upload-container:hover {
+  border-color: var(--toss-blue);
+  background: var(--toss-blue-light);
 }
-.board-form input::placeholder { color: #94a3b8 !important; }
-.board-form button { background: #1a56db; color: white; border: none; padding: 0 16px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-.feed-item { background: #ffffff; padding: 12px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #f1f5f9; }
-.feed-item p { margin: 0 0 4px 0; font-size: 13px; color: #1f2937; }
-.feed-item span { font-size: 11px; color: #6b7280; }
 
-/* --- [9. 하단 프리미엄 내비게이션 바] --- */
+.upload-placeholder {
+  font-size: 14px;
+  color: var(--toss-text-muted);
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-icon {
+  font-size: 32px;
+}
+
+.preview-img {
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--toss-radius-md);
+  box-shadow: var(--toss-shadow-md);
+}
+
+#file-upload {
+  display: none;
+}
+
+.btn-upload {
+  background: var(--toss-text-main);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: var(--toss-radius-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-upload:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.btn-success-confirm {
+  background: var(--toss-blue) !important;
+  width: 100%;
+  max-width: 320px;
+  justify-content: center;
+  padding: 16px;
+  font-size: 15px;
+  box-shadow: 0 4px 14px rgba(49, 130, 246, 0.3);
+}
+
+.btn-success-confirm:hover {
+  background: var(--toss-blue-hover) !important;
+}
+
+/* --- [10. 탭 4: 주민 소통 및 신문고 UI] --- */
+.office-box {
+  background: var(--toss-blue-light);
+  border-radius: var(--toss-radius-md);
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  border: 1px solid rgba(49, 130, 246, 0.2);
+}
+
+.office-box strong {
+  color: var(--toss-blue);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.office-box p {
+  color: var(--toss-text-sub);
+  font-size: 13px;
+}
+
+.board-form {
+  display: flex;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.board-form input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1.5px solid var(--toss-border-dark);
+  border-radius: var(--toss-radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #ffffff;
+  color: var(--toss-text-main);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.board-form input:focus {
+  border-color: var(--toss-blue);
+  box-shadow: 0 0 0 3px rgba(49, 130, 246, 0.18);
+}
+
+.board-form input::placeholder {
+  color: var(--toss-text-muted);
+}
+
+.board-form button {
+  background: var(--toss-blue);
+  color: #ffffff;
+  border: none;
+  padding: 0 22px;
+  border-radius: var(--toss-radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.board-form button:hover {
+  background: var(--toss-blue-hover);
+}
+
+.board-form button:active {
+  transform: scale(0.96);
+}
+
+.feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feed-list h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--toss-text-sub);
+  margin-bottom: 4px;
+}
+
+.feed-item {
+  background: var(--toss-card-bg);
+  padding: 16px 18px;
+  border-radius: var(--toss-radius-md);
+  border: 1px solid var(--toss-border-dark);
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.15s ease;
+}
+
+.feed-item:hover {
+  transform: translateX(2px);
+}
+
+.feed-item p {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--toss-text-main);
+  line-height: 1.5;
+}
+
+.feed-item span {
+  font-size: 12px;
+  color: var(--toss-text-muted);
+  font-weight: 500;
+}
+
+/* --- [11. Toss Frosted Floating Bottom Navigation] --- */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 450px;
+  max-width: 720px;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(229, 232, 235, 0.8);
   display: flex;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid #e2e8f0;
-  z-index: 100;
+  z-index: 1000;
   padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
 }
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    border-bottom-left-radius: var(--toss-radius-lg);
+    border-bottom-right-radius: var(--toss-radius-lg);
+  }
+}
+
 .bottom-nav button {
-  flex: 1; border: none; background: none; font-size: 11px; font-weight: 700; color: #9ca3af; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--toss-text-muted);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  position: relative;
 }
-.bottom-nav button.active { color: #1a56db; background: #eff6ff; }
-.loading-box { text-align: center; padding: 40px 0; font-weight: 700; color: #1a56db; font-size: 13px; }
+
+.bottom-nav button:hover {
+  color: var(--toss-blue);
+}
+
+.bottom-nav button.active {
+  color: var(--toss-blue);
+  font-weight: 800;
+}
+
+.bottom-nav button.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 32px;
+  height: 3px;
+  background: var(--toss-blue);
+  border-radius: 0 0 4px 4px;
+}
+
+.loading-box {
+  text-align: center;
+  padding: 60px 0;
+  font-weight: 700;
+  color: var(--toss-blue);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
