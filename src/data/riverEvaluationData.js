@@ -1,8 +1,8 @@
 /**
  * 🌊 부산하천 소통함 유동적 평가 데이터 구조 (riverEvaluationData.js)
  * 
- * 특정 평가 항목이나 하천을 코드에 고정(하드코딩)하지 않고 데이터 기반으로 완전 관리합니다.
- * 평가 항목(evaluationCriteria) 추가/비활성화, 하천 목록(riversList) 추가/삭제가 유연하게 가능합니다.
+ * 특정 평가 항목이나 하천을 코드에 고정하지 않고 데이터 기반으로 관리합니다.
+ * 시민 한줄평, 평점, 좋아요(likes) 수 및 작성일자가 결합된 구조로 관리되며 AI 분석용 데이터를 축적합니다.
  */
 
 // 1. 하천 유형 데이터 (동적 관리)
@@ -27,7 +27,6 @@ export const RIVERS_LIST = [
 ];
 
 // 3. 유동적 평가 항목 데이터 (동적 관리)
-// active: false 시 삭제하지 않고 안전하게 비활성화 처리 가능
 export const EVALUATION_CRITERIA = [
   {
     id: 'C001',
@@ -59,46 +58,10 @@ export const EVALUATION_CRITERIA = [
   }
 ];
 
-// 4. 초기 시민 평가 데이터 (샘플 데이터 세트)
+// 4. 초기 시민 평가 데이터 (좋아요 수 포함 샘플 데이터 세트)
 export const INITIAL_REVIEWS = [
   {
     id: 'REV-101',
-    riverId: 'R001', // 낙동강
-    scores: [
-      { criterionId: 'C001', score: 4 },
-      { criterionId: 'C002', score: 4 },
-      { criterionId: 'C003', score: 4 },
-      { criterionId: 'C004', score: 5 }
-    ],
-    comment: '을숙도 수변 산책로가 아주 쾌적하고 강 폭이 넓어 보기가 좋습니다.',
-    createdAt: '2026-08-13 14:20'
-  },
-  {
-    id: 'REV-102',
-    riverId: 'R001', // 낙동강
-    scores: [
-      { criterionId: 'C001', score: 3 },
-      { criterionId: 'C002', score: 4 },
-      { criterionId: 'C003', score: 3 },
-      { criterionId: 'C004', score: 4 }
-    ],
-    comment: '자전거 타고 라이딩하기는 최고인데 비 온 직후엔 약간 탁해집니다.',
-    createdAt: '2026-08-13 15:10'
-  },
-  {
-    id: 'REV-103',
-    riverId: 'R002', // 수영강
-    scores: [
-      { criterionId: 'C001', score: 4 },
-      { criterionId: 'C002', score: 3 },
-      { criterionId: 'C003', score: 4 },
-      { criterionId: 'C004', score: 5 }
-    ],
-    comment: 'APEC 나루공원 야경과 수영강 보행교 조명이 정비되어 산책하기 좋습니다.',
-    createdAt: '2026-08-13 16:05'
-  },
-  {
-    id: 'REV-104',
     riverId: 'R003', // 온천천
     scores: [
       { criterionId: 'C001', score: 3 },
@@ -107,10 +70,11 @@ export const INITIAL_REVIEWS = [
       { criterionId: 'C004', score: 5 }
     ],
     comment: '접근성과 산책 시설은 부산 최고지만 여름철 정체 구간 냄새 개선이 필요합니다.',
+    likes: 152,
     createdAt: '2026-08-13 17:30'
   },
   {
-    id: 'REV-105',
+    id: 'REV-102',
     riverId: 'R004', // 동천
     scores: [
       { criterionId: 'C001', score: 2 },
@@ -118,11 +82,38 @@ export const INITIAL_REVIEWS = [
       { criterionId: 'C003', score: 2 },
       { criterionId: 'C004', score: 3 }
     ],
-    comment: '해수 도수관 작업 이후 수질이 나아졌으나 지속적인 관리와 예산 투입이 시급합니다.',
+    comment: '해수 도수관 작업 이후 수질이 다소 나아졌으나 지속적인 주거지 악취 관리와 예산 투입이 시급합니다.',
+    likes: 98,
     createdAt: '2026-08-13 18:00'
   },
   {
-    id: 'REV-106',
+    id: 'REV-103',
+    riverId: 'R001', // 낙동강
+    scores: [
+      { criterionId: 'C001', score: 4 },
+      { criterionId: 'C002', score: 4 },
+      { criterionId: 'C003', score: 4 },
+      { criterionId: 'C004', score: 5 }
+    ],
+    comment: '을숙도 수변 산책로가 아주 쾌적하고 강 폭이 넓어 가슴이 탁 트입니다.',
+    likes: 67,
+    createdAt: '2026-08-13 14:20'
+  },
+  {
+    id: 'REV-104',
+    riverId: 'R002', // 수영강
+    scores: [
+      { criterionId: 'C001', score: 4 },
+      { criterionId: 'C002', score: 3 },
+      { criterionId: 'C003', score: 4 },
+      { criterionId: 'C004', score: 5 }
+    ],
+    comment: 'APEC 나루공원 야경과 수영강 보행교 조명이 정비되어 야간 산책하기 최고입니다.',
+    likes: 45,
+    createdAt: '2026-08-13 16:05'
+  },
+  {
+    id: 'REV-105',
     riverId: 'R006', // 대천천
     scores: [
       { criterionId: 'C001', score: 5 },
@@ -131,18 +122,36 @@ export const INITIAL_REVIEWS = [
       { criterionId: 'C004', score: 4 }
     ],
     comment: '계곡 물이 정말 맑고 1급수 생태계가 잘 살아있습니다. 피서철 관리가 잘되면 좋겠어요.',
+    likes: 21,
     createdAt: '2026-08-13 18:45'
+  },
+  {
+    id: 'REV-106',
+    riverId: 'R005', // 삼락천
+    scores: [
+      { criterionId: 'C001', score: 3 },
+      { criterionId: 'C002', score: 4 },
+      { criterionId: 'C003', score: 4 },
+      { criterionId: 'C004', score: 3 }
+    ],
+    comment: '자전거 타기는 좋은데 자연적인 습지 느낌을 지속적으로 유지해주면 좋겠습니다.',
+    likes: 15,
+    createdAt: '2026-08-13 19:10'
   }
 ];
 
 // LocalStorage 저장/로드 헬퍼
-const LOCAL_STORAGE_KEY = 'busan_river_evaluations_v1';
+const REVIEWS_STORAGE_KEY = 'busan_river_evaluations_v2';
+const LIKED_STORAGE_KEY = 'busan_river_liked_reviews_v1';
 
 export function getStoredReviews() {
   try {
-    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const data = localStorage.getItem(REVIEWS_STORAGE_KEY);
     if (data) {
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
     }
   } catch (e) {
     console.error('LocalStorage read error:', e);
@@ -152,10 +161,61 @@ export function getStoredReviews() {
 
 export function saveReviews(reviews) {
   try {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(reviews));
+    localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(reviews));
   } catch (e) {
     console.error('LocalStorage write error:', e);
   }
+}
+
+export function getLikedReviewIds() {
+  try {
+    const data = localStorage.getItem(LIKED_STORAGE_KEY);
+    if (data) {
+      return new Set(JSON.parse(data));
+    }
+  } catch (e) {
+    console.error('Liked IDs read error:', e);
+  }
+  return new Set();
+}
+
+export function saveLikedReviewIds(likedSet) {
+  try {
+    localStorage.setItem(LIKED_STORAGE_KEY, JSON.stringify(Array.from(likedSet)));
+  } catch (e) {
+    console.error('Liked IDs write error:', e);
+  }
+}
+
+/**
+ * 개별 리뷰 객체를 AI 축적용 완전체 구조로 포맷팅
+ */
+export function enrichReviewData(rev) {
+  const riverObj = RIVERS_LIST.find((r) => r.id === rev.riverId);
+  const riverName = riverObj ? riverObj.name : '부산 하천';
+
+  // 개별 리뷰 평균 점수 계산
+  const validScores = (rev.scores || []).filter((s) => s.score > 0);
+  const sum = validScores.reduce((acc, s) => acc + s.score, 0);
+  const averageScore = validScores.length > 0 ? Number((sum / validScores.length).toFixed(1)) : 5.0;
+
+  // scores 맵핑 (AI 축적용)
+  const scoresMap = {};
+  (rev.scores || []).forEach((s) => {
+    scoresMap[s.criterionId] = s.score;
+  });
+
+  return {
+    id: rev.id,
+    riverId: rev.riverId,
+    riverName: riverName,
+    comment: rev.comment,
+    averageScore: averageScore,
+    likes: rev.likes || 0,
+    createdAt: rev.createdAt || new Date().toISOString().substring(0, 10),
+    scores: scoresMap,
+    rawScores: rev.scores
+  };
 }
 
 /**
@@ -189,7 +249,7 @@ export function calculateRiverStats(riverId, reviews = [], criteria = EVALUATION
   });
 
   riverReviews.forEach((rev) => {
-    rev.scores.forEach((s) => {
+    (rev.scores || []).forEach((s) => {
       if (scoreSums[s.criterionId] !== undefined) {
         scoreSums[s.criterionId] += s.score;
         scoreCounts[s.criterionId] += 1;
@@ -221,7 +281,7 @@ export function calculateRiverStats(riverId, reviews = [], criteria = EVALUATION
     totalCount,
     criterionAverages,
     overallAverage,
-    reviews: riverReviews
+    reviews: riverReviews.map(enrichReviewData)
   };
 }
 

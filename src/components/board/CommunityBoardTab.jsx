@@ -2,23 +2,30 @@ import React, { useState, useEffect } from 'react';
 import RiverEvaluationForm from './RiverEvaluationForm';
 import RiverEvaluationResult from './RiverEvaluationResult';
 import RiverComparisonTable from './RiverComparisonTable';
+import CitizenReviewFeed from './CitizenReviewFeed';
 import {
   RIVERS_LIST,
   getStoredReviews,
-  saveReviews
+  saveReviews,
+  getLikedReviewIds,
+  saveLikedReviewIds
 } from '../../data/riverEvaluationData';
 
 /**
- * 📝 탭 4: 주민 소통 및 이태엽 의원실 통합 신문고 (부산하천 소통함 평가 기능)
+ * 📝 탭 4: 부산하천 소통함 시민 평가 & 공감 피드
+ * (의원실 피드는 완전히 제거되었으며, 좋아요 기반 시민 한줄평 피드로 대체되었습니다)
  */
-function CommunityBoardTab({ selectedRiver, feedList, newPost, setNewPost, onAddPost }) {
-  const [subTab, setSubTab] = useState('form'); // 'form' | 'result' | 'comparison'
+function CommunityBoardTab({ selectedRiver }) {
+  const [subTab, setSubTab] = useState('result'); // 'result' | 'form' | 'comparison'
   const [reviewsList, setReviewsList] = useState([]);
+  const [likedReviewIds, setLikedReviewIds] = useState(new Set());
   const [currentRiverId, setCurrentRiverId] = useState('R001');
 
   useEffect(() => {
-    const loaded = getStoredReviews();
-    setReviewsList(loaded);
+    const loadedReviews = getStoredReviews();
+    const loadedLikes = getLikedReviewIds();
+    setReviewsList(loadedReviews);
+    setLikedReviewIds(loadedLikes);
   }, []);
 
   // 외부 selectedRiver 변경 시 하천 ID 맵핑
@@ -36,7 +43,36 @@ function CommunityBoardTab({ selectedRiver, feedList, newPost, setNewPost, onAdd
     const updated = [newReview, ...reviewsList];
     setReviewsList(updated);
     saveReviews(updated);
-    setSubTab('result'); // 제출 후 평가 결과 탭으로 자동 이동
+    setSubTab('result'); // 제출 후 평가 결과 탭으로 이동
+  };
+
+  // 좋아요(❤️) 토글 처리 (중복 방지 및 수치 갱신)
+  const handleToggleLike = (reviewId) => {
+    const nextLiked = new Set(likedReviewIds);
+    let isAddingLike = false;
+
+    if (nextLiked.has(reviewId)) {
+      nextLiked.delete(reviewId);
+      isAddingLike = false;
+    } else {
+      nextLiked.add(reviewId);
+      isAddingLike = true;
+    }
+
+    const updatedReviews = reviewsList.map((rev) => {
+      if (rev.id === reviewId) {
+        const currentLikes = rev.likes || 0;
+        const newLikes = isAddingLike ? currentLikes + 1 : Math.max(0, currentLikes - 1);
+        return { ...rev, likes: newLikes };
+      }
+      return rev;
+    });
+
+    setLikedReviewIds(nextLiked);
+    setReviewsList(updatedReviews);
+
+    saveLikedReviewIds(nextLiked);
+    saveReviews(updatedReviews);
   };
 
   const handleSelectRiverId = (riverId) => {
@@ -45,18 +81,18 @@ function CommunityBoardTab({ selectedRiver, feedList, newPost, setNewPost, onAdd
 
   return (
     <div className="tab-panel">
-      {/* 타이틀 및 통합 신문고 안심 안내 */}
+      {/* 1. 타이틀 및 안내 혜택 영역 */}
       <div className="board-header-section">
-        <h3>📝 부산하천 소통함 & 이태엽 의원실 신문고</h3>
+        <h3>📝 부산하천 소통함 시민 참여 피드</h3>
         <div className="office-box">
-          🔒 <strong>이태엽 의원실 통합 신문고 (민원 수렴 & 빅데이터)</strong>
+          🔒 <strong>부산 하천 빅데이터 소통 플랫폼</strong>
           <p>
-            시민 여러분의 개별 평가 데이터는 안전하게 보존되며, 향후 AI 기반 하천 문제점 분석 및 지자체 예산 투입 우선순위 결정의 핵심 자료로 활용됩니다.
+            시민 여러분의 개별 평가와 공감(좋아요) 데이터는 안전하게 보존되어, 향후 AI 기반 하천 문제점 종합 분석 및 예산 투입 우선순위 결정의 핵심 자료로 축적됩니다.
           </p>
         </div>
       </div>
 
-      {/* 소통함 서브 세그먼트 탭 메뉴 */}
+      {/* 2. 소통함 서브 세그먼트 탭 메뉴 */}
       <div className="eval-sub-nav">
         <button
           className={`eval-nav-btn ${subTab === 'form' ? 'active' : ''}`}
@@ -78,7 +114,7 @@ function CommunityBoardTab({ selectedRiver, feedList, newPost, setNewPost, onAdd
         </button>
       </div>
 
-      {/* 세그먼트별 메인 콘텐츠 */}
+      {/* 3. 세그먼트별 상단 주요 영역 */}
       {subTab === 'form' && (
         <RiverEvaluationForm
           selectedRiverId={currentRiverId}
@@ -105,27 +141,13 @@ function CommunityBoardTab({ selectedRiver, feedList, newPost, setNewPost, onAdd
         />
       )}
 
-      {/* 기존 한줄 피드 및 제보 서식 유지 */}
-      <div className="original-feed-section">
-        <h4>💬 의원실 실시간 소통 한 줄 피드</h4>
-        <form onSubmit={onAddPost} className="board-form">
-          <input
-            type="text"
-            placeholder={`[${selectedRiver || '부산 하천'}] 제보 사항을 한 줄로 공유해 주세요!`}
-            value={newPost}
-            onChange={(e) => setNewPost(e.target.value)}
-            maxLength={100}
-          />
-          <button type="submit">등록</button>
-        </form>
-        <div className="feed-list">
-          {feedList.map((post) => (
-            <div className="feed-item" key={post.id}>
-              <p>{post.text}</p>
-              <span>{post.time}</span>
-            </div>
-          ))}
-        </div>
+      {/* 4. 의원실 피드를 완전히 대체하는 확대된 시민 실시간 한줄평 피드 */}
+      <div className="citizen-feed-section">
+        <CitizenReviewFeed
+          reviewsList={reviewsList}
+          onToggleLike={handleToggleLike}
+          likedReviewIds={likedReviewIds}
+        />
       </div>
     </div>
   );

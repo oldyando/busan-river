@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   RIVERS_LIST,
   RIVER_TYPES,
@@ -13,6 +13,13 @@ import {
 function RiverEvaluationResult({ selectedRiverId, reviewsList = [], onSelectRiver }) {
   const [currentRiverId, setCurrentRiverId] = useState(selectedRiverId || 'R001');
   const activeCriteria = EVALUATION_CRITERIA.filter((c) => c.active);
+
+  // 상위 prop(selectedRiverId) 변경 시 currentRiverId 동기화
+  useEffect(() => {
+    if (selectedRiverId) {
+      setCurrentRiverId(selectedRiverId);
+    }
+  }, [selectedRiverId]);
 
   const selectedRiverObj =
     RIVERS_LIST.find((r) => r.id === currentRiverId) || RIVERS_LIST[0];
@@ -35,6 +42,7 @@ function RiverEvaluationResult({ selectedRiverId, reviewsList = [], onSelectRive
 
   return (
     <div className="eval-result-container">
+      {/* 1. 하천 선택 헤더 */}
       <div className="result-header-box">
         <div className="result-river-info">
           <span className="river-type-badge">
@@ -58,6 +66,7 @@ function RiverEvaluationResult({ selectedRiverId, reviewsList = [], onSelectRive
         </div>
       </div>
 
+      {/* 2. 종합 평균 및 실시간 집계 카드 */}
       <div className="stats-summary-card">
         <div className="overall-score-box">
           <span className="overall-label">시민 종합 평점</span>
@@ -73,6 +82,7 @@ function RiverEvaluationResult({ selectedRiverId, reviewsList = [], onSelectRive
           </span>
         </div>
 
+        {/* 유동적 항목별 평균 점수 바 */}
         <div className="criteria-averages-box">
           <h5>항목별 세부 평점 (실시간 데이터 집계)</h5>
 
@@ -102,56 +112,6 @@ function RiverEvaluationResult({ selectedRiverId, reviewsList = [], onSelectRive
             );
           })}
         </div>
-      </div>
-
-      <div className="reviews-feed-section">
-        <h4>💬 시민 실시간 한줄평 ({stats.reviews.length}개)</h4>
-
-        {stats.reviews.length === 0 ? (
-          <div className="empty-reviews-box">
-            <span>🌊 아직 {selectedRiverObj.name}에 등록된 시민 평가가 없습니다. 첫 평가를 남겨보세요!</span>
-          </div>
-        ) : (
-          <div className="reviews-feed-list">
-            {stats.reviews.map((rev) => {
-              const revSum = rev.scores.reduce((acc, s) => acc + s.score, 0);
-              const revAvg = rev.scores.length > 0 ? (revSum / rev.scores.length).toFixed(1) : '5.0';
-
-              return (
-                <div className="review-card-item" key={rev.id}>
-                  <div className="review-card-top">
-                    <div className="reviewer-info">
-                      <span className="user-icon">👤</span>
-                      <strong>부산 시민 피드</strong>
-                      <span className="review-date">{rev.createdAt}</span>
-                    </div>
-
-                    <div className="review-score-badge">
-                      <span className="star">★</span>
-                      <strong>{revAvg}</strong>
-                    </div>
-                  </div>
-
-                  <p className="review-comment-text">"{rev.comment}"</p>
-
-                  <div className="review-scores-chips">
-                    {rev.scores.map((s) => {
-                      const crit = EVALUATION_CRITERIA.find(
-                        (c) => c.id === s.criterionId
-                      );
-                      if (!crit || !crit.active) return null;
-                      return (
-                        <span key={s.criterionId} className="score-chip">
-                          {crit.name}: {s.score}점
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
     </div>
   );

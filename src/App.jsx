@@ -161,14 +161,10 @@ function App() {
               />
             )}
 
-            {/* 탭 4: 주민 소통 */}
+            {/* 탭 4: 부산하천 소통함 시민 평가 & 피드 */}
             {activeTab === 'board' && (
               <CommunityBoardTab
                 selectedRiver={selectedRiver}
-                feedList={feedList}
-                newPost={newPost}
-                setNewPost={setNewPost}
-                onAddPost={handleAddPost}
               />
             )}
           </>
