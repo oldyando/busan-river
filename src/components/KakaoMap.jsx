@@ -3,18 +3,25 @@ import React, { useEffect, useRef, useState } from 'react';
 /**
  * 🗺️ KakaoMap 컴포넌트
  * - React + Vite 환경의 VITE_KAKAO_MAP_KEY 사용
- * - 카카오 지도 SDK 동적 로딩 및 실제 지도 객체 생성
+ * - 카카오 지도 SDK 동적 로딩 및 지도 객체 생성
  * - 지도 이동, 확대/축소, 반응형 크기 지원
- * - console 진단 로그 (1. 환경변수, 2. Script 로드, 3. window.kakao, 4. window.kakao.maps, 5. 지도 생성)
+ * - 자식 요소(children)나 콜백(onMapCreated)에 map 인스턴스 전달 지원
  */
-function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, className = '', height = '380px' }) {
+function KakaoMap({
+  center = { lat: 35.1795543, lng: 129.0756416 },
+  level = 6,
+  className = '',
+  height = '420px',
+  children,
+  onMapCreated
+}) {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const [map, setMap] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 1. 환경변수 확인
     const apiKey = import.meta.env.VITE_KAKAO_MAP_KEY;
     const hasKey = Boolean(apiKey);
     const maskedKey = hasKey ? `${apiKey.substring(0, 4)}...${apiKey.substring(apiKey.length - 4)}` : 'N/A';
@@ -29,15 +36,12 @@ function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, c
       return;
     }
 
-    // 지도 생성 함수
     const initMap = () => {
       if (!mapContainerRef.current) return;
 
-      // 3. window.kakao 검증
       const hasKakao = typeof window.kakao !== 'undefined';
       console.log(`[KakaoMap Diagnostic] 3단계: window.kakao 존재 확인 - ${hasKakao ? '성공' : '실패'}`);
 
-      // 4. window.kakao.maps 검증
       const hasMaps = Boolean(hasKakao && window.kakao.maps);
       console.log(`[KakaoMap Diagnostic] 4단계: window.kakao.maps 존재 확인 - ${hasMaps ? '성공' : '실패'}`);
 
@@ -49,7 +53,6 @@ function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, c
         return;
       }
 
-      // 5. kakao.maps.load 기반 지도 초기화
       window.kakao.maps.load(() => {
         try {
           const container = mapContainerRef.current;
@@ -61,62 +64,59 @@ function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, c
           };
 
           if (!mapInstanceRef.current) {
-            const map = new window.kakao.maps.Map(container, options);
-            mapInstanceRef.current = map;
-            console.log('[KakaoMap Diagnostic] 🎉 5단계 성공: 실제 카카오 지도가 화면에 정상적으로 생성되었습니다!');
+            const createdMap = new window.kakao.maps.Map(container, options);
+            mapInstanceRef.current = createdMap;
+            setMap(createdMap);
+            if (onMapCreated) onMapCreated(createdMap);
+            console.log('[KakaoMap Diagnostic] 🎉 5단계 성공: 카카오 지도 객체 생성 완료!');
           } else {
             const moveLatLon = new window.kakao.maps.LatLng(center.lat, center.lng);
             mapInstanceRef.current.setCenter(moveLatLon);
             mapInstanceRef.current.setLevel(level);
             mapInstanceRef.current.relayout();
-            console.log('[KakaoMap Diagnostic] 5단계: 지도 중심 및 Zoom level 업데이트 완료');
           }
 
           setLoading(false);
           setError(null);
         } catch (err) {
-          console.error('[KakaoMap Diagnostic] ❌ 5단계 실패: 지도 초기화 중 예외가 발생했습니다.', err);
+          console.error('[KakaoMap Diagnostic] ❌ 5단계 실패: 지도 초기화 오류:', err);
           setError('카카오 지도 생성 중 오류가 발생했습니다.');
           setLoading(false);
         }
       });
     };
 
-    // 2. 카카오 지도 SDK script 로드 상태 확인 및 동적 로딩
     if (window.kakao && window.kakao.maps) {
-      console.log('[KakaoMap Diagnostic] 2단계: 카카오 지도 SDK script가 이미 로드되어 있습니다.');
       initMap();
       return;
     }
 
     const existingScript = document.getElementById('kakao-map-sdk');
     if (existingScript) {
-      console.log('[KakaoMap Diagnostic] 2단계: 기존 script 태그 감지, load 이벤트 수신 대기');
       existingScript.addEventListener('load', initMap);
       return () => existingScript.removeEventListener('load', initMap);
     }
 
-    console.log('[KakaoMap Diagnostic] 2단계: 카카오 지도 SDK script 동적 삽입 시작...');
     const script = document.createElement('script');
     script.id = 'kakao-map-sdk';
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
     script.async = true;
 
     script.onload = () => {
-      console.log('[KakaoMap Diagnostic] ✅ 2단계 성공: 카카오 지도 SDK script가 성공적으로 로드되었습니다.');
+      console.log('[KakaoMap Diagnostic] ✅ 2단계 성공: Kakao SDK script 로드 완료.');
       initMap();
     };
 
     script.onerror = (e) => {
-      console.error('[KakaoMap Diagnostic] ❌ 2단계 실패: script 로드에 실패했습니다 (도메인 미등록 또는 네트워크/API 키 오류).', e);
-      setError('카카오 지도 스크립트 로드 실패. Kakao Developers Web 플랫폼 도메인 등록 상태를 확인하세요.');
+      console.error('[KakaoMap Diagnostic] ❌ 2단계 실패: script 로드 실패.', e);
+      setError('카카오 지도 스크립트 로드 실패. Web 플랫폼 도메인을 확인하세요.');
       setLoading(false);
     };
 
     document.head.appendChild(script);
-  }, [center.lat, center.lng, level]);
+  }, []);
 
-  // Props 변경 시 중심 위치 및 확대 수준 변경
+  // Props 중심 좌표 및 zoom level 변경 시 지도 동동 이동
   useEffect(() => {
     if (mapInstanceRef.current && window.kakao && window.kakao.maps) {
       const moveLatLon = new window.kakao.maps.LatLng(center.lat, center.lng);
@@ -125,7 +125,7 @@ function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, c
     }
   }, [center.lat, center.lng, level]);
 
-  // 브라우저 리사이즈 시 지도 크기 재계산
+  // 창 크기 변경 대응
   useEffect(() => {
     const handleResize = () => {
       if (mapInstanceRef.current) {
@@ -140,7 +140,7 @@ function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, c
     <div className={`kakao-map-wrapper ${className}`} style={{ position: 'relative', width: '100%', height }}>
       {loading && (
         <div className="kakao-map-status-overlay">
-          <span>🌊 카카오 지도를 불러오는 중...</span>
+          <span>🌊 부산 하천 지도를 불러오는 중...</span>
         </div>
       )}
 
@@ -161,6 +161,13 @@ function KakaoMap({ center = { lat: 35.1795543, lng: 129.0756416 }, level = 4, c
           overflow: 'hidden'
         }}
       />
+
+      {/* 자식 레이어 컴포넌트(RiverLayer 등)에 map 인스턴스 전달 */}
+      {map && typeof children === 'function'
+        ? children(map)
+        : React.Children.map(children, (child) =>
+            React.isValidElement(child) ? React.cloneElement(child, { map }) : child
+          )}
     </div>
   );
 }

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="360" viewBox="0 0 600 360">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EBF4FF"/>
+      <stop offset="100%" stop-color="#D0E2FF"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3182F6"/>
+      <stop offset="100%" stop-color="#1B64DA"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" fill="url(#sky)"/>
+  <path d="M0,220 Q150,180 300,220 T600,200 L600,360 L0,360 Z" fill="url(#river)"/>
+  <circle cx="120" cy="180" r="14" fill="#FFB800" opacity="0.8"/>
+  <circle cx="280" cy="190" r="18" fill="#FF8A00" opacity="0.7"/>
+  <circle cx="450" cy="175" r="15" fill="#FFB800" opacity="0.8"/>
+  <text x="300" y="120" dominant-baseline="middle" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="28" font-weight="800" fill="#1B64DA">🌸 부산 온천천 산책로</text>
+  <text x="300" y="155" dominant-baseline="middle" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="16" font-weight="600" fill="#4E5968">온천천 시민 생태 공원 및 벚꽃 길</text>
+</svg>

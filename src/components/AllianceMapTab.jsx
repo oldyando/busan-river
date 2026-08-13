@@ -1,13 +1,45 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import KakaoMap from './KakaoMap';
-import { RIVER_MAP_CONFIG, DEFAULT_MAP_CONFIG } from '../config/mapConfig';
+import RiverLayer from './RiverLayer';
+import RiverInfoCard from './RiverInfoCard';
+import { RIVER_DATA, getRiverByName } from '../data/riverData';
+import { DEFAULT_MAP_CONFIG } from '../config/mapConfig';
 
 /**
- * 🗺️ 탭 2: 소상공인 상생 지도 & 할인 쿠폰
+ * 🗺️ 탭 2: 부산 하천 지도 & 소상공인 상생 쿠폰
  */
 function AllianceMapTab({ selectedRiver, coupons, onDownloadCoupon }) {
-  const mapConfig = RIVER_MAP_CONFIG[selectedRiver] || DEFAULT_MAP_CONFIG;
+  const [selectedRiverData, setSelectedRiverData] = useState(null);
+  const [currentCenter, setCurrentCenter] = useState(DEFAULT_MAP_CONFIG.center);
+  const [currentLevel, setCurrentLevel] = useState(DEFAULT_MAP_CONFIG.level);
+
+  // 상단 하천 드롭다운 변경 시 해당 하천 데이터 선택 및 지도 이동
+  useEffect(() => {
+    if (selectedRiver) {
+      const foundRiver = getRiverByName(selectedRiver);
+      if (foundRiver) {
+        setSelectedRiverData(foundRiver);
+        if (foundRiver.center && foundRiver.level) {
+          setCurrentCenter(foundRiver.center);
+          setCurrentLevel(foundRiver.level);
+        }
+      }
+    }
+  }, [selectedRiver]);
+
+  // 지도 위 하천 Polyline/마커 클릭 핸들러
+  const handleSelectRiverOnMap = (river) => {
+    setSelectedRiverData(river);
+    if (river.center && river.level) {
+      setCurrentCenter(river.center);
+      setCurrentLevel(river.level);
+    }
+  };
+
+  // 카드 닫기 핸들러
+  const handleCloseCard = () => {
+    setSelectedRiverData(null);
+  };
 
   const shopList = [
     { name: `${selectedRiver} 다리옆 소상공인 카페`, benefit: '아메리카노 1,000원 즉시 할인' },
@@ -17,13 +49,41 @@ function AllianceMapTab({ selectedRiver, coupons, onDownloadCoupon }) {
 
   return (
     <div className="tab-panel">
-      <div className="map-section-container">
-        <KakaoMap
-          center={mapConfig.center}
-          level={mapConfig.level}
-          height="380px"
-        />
+      {/* 부산 하천 지도 영역 */}
+      <div className="map-section-container" style={{ position: 'relative' }}>
+        <KakaoMap center={currentCenter} level={currentLevel} height="420px">
+          {(map) => (
+            <RiverLayer
+              map={map}
+              riverList={RIVER_DATA}
+              onSelectRiver={handleSelectRiverOnMap}
+              selectedRiverId={selectedRiverData?.id}
+            />
+          )}
+        </KakaoMap>
+
+        {/* 선택된 하천 정보 카드 오버레이 */}
+        {selectedRiverData && (
+          <RiverInfoCard river={selectedRiverData} onClose={handleCloseCard} />
+        )}
       </div>
+
+      {/* 하천 빠른 선택 뱃지 바 */}
+      <div className="river-quick-selector">
+        <span className="selector-title">📌 하천 선택:</span>
+        <div className="river-badge-group">
+          {RIVER_DATA.map((river) => (
+            <button
+              key={river.id}
+              className={`river-chip ${selectedRiverData?.id === river.id ? 'active' : ''}`}
+              onClick={() => handleSelectRiverOnMap(river)}
+            >
+              🌊 {river.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <h3>🛍️ {selectedRiver} 소상공인 상생 우대 쿠폰</h3>
       <div className="coupon-list">
         {shopList.map((shop, idx) => (
@@ -43,4 +103,3 @@ function AllianceMapTab({ selectedRiver, coupons, onDownloadCoupon }) {
 }
 
 export default AllianceMapTab;
-

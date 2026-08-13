@@ -354,6 +354,251 @@
   color: #6b7684;
 }
 
+/* --- [8-1. Kakao Map Custom Marker Badges] --- */
+.river-map-marker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid var(--toss-blue);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.river-map-marker:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(49, 130, 246, 0.3);
+  border-color: var(--toss-blue-hover);
+}
+
+.river-map-marker.active {
+  background: var(--toss-blue);
+  border-color: var(--toss-blue-hover);
+}
+
+.river-map-marker.active .river-marker-label {
+  color: #ffffff;
+}
+
+.river-marker-pin {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.river-marker-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  white-space: nowrap;
+}
+
+/* --- [8-2. Selected River Info Card (Toss Card Overlay)] --- */
+.river-info-card-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 100;
+  animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.river-info-card {
+  background: #ffffff;
+  border-radius: var(--toss-radius-lg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(229, 232, 235, 0.8);
+  overflow: hidden;
+  position: relative;
+  max-width: 100%;
+}
+
+.card-close-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.card-close-badge:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.08);
+}
+
+.river-card-image-container {
+  width: 100%;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  background: #eef5ff;
+}
+
+.river-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.river-image-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 14px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.river-card-content {
+  padding: 16px 20px 18px 20px;
+}
+
+.river-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.river-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.river-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff8e6;
+  padding: 4px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+}
+
+.rating-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #b77900;
+}
+
+.rating-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8c6200;
+}
+
+.river-card-description {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--toss-text-sub);
+  line-height: 1.55;
+  margin: 8px 0 16px 0;
+  word-break: keep-all;
+}
+
+.river-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.river-card-close-btn {
+  background: var(--toss-bg);
+  color: var(--toss-text-sub);
+  border: 1px solid var(--toss-border-dark);
+  padding: 8px 20px;
+  border-radius: var(--toss-radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.river-card-close-btn:hover {
+  background: #e5e8eb;
+  color: var(--toss-text-main);
+}
+
+/* --- [8-3. River Quick Chips Selector Bar] --- */
+.river-quick-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 16px 0;
+  overflow-x: auto;
+  padding: 4px 2px;
+}
+
+.selector-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toss-text-muted);
+  white-space: nowrap;
+}
+
+.river-badge-group {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.river-chip {
+  background: var(--toss-card-bg);
+  border: 1.5px solid var(--toss-border-dark);
+  color: var(--toss-text-sub);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.river-chip:hover {
+  border-color: var(--toss-blue);
+  color: var(--toss-blue);
+}
+
+.river-chip.active {
+  background: var(--toss-blue-light);
+  border-color: var(--toss-blue);
+  color: var(--toss-blue);
+}
+
 .map-placeholder {
   background: linear-gradient(135deg, #eef5ff 0%, #e6f0ff 100%);
   height: 200px;
