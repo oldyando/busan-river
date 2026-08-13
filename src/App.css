@@ -1987,6 +1987,355 @@
 .neu-label { color: #64748b; }
 .neg-label { color: #dc2626; }
 
+/* --- [15. 탭 3: 시민 하천 사진 인증 & 🏆 좋아요 랭킹 UI] --- */
+.photo-upload-card {
+  background: var(--toss-card-bg);
+  border-radius: var(--toss-radius-lg);
+  padding: 24px;
+  border: 1px solid var(--toss-border-dark);
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card-header-sm h4 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin: 0;
+}
+
+.photo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.photo-preview-box {
+  background: #fafbfc;
+  border: 1.5px dashed var(--toss-border-dark);
+  border-radius: var(--toss-radius-md);
+  padding: 16px;
+  text-align: center;
+}
+
+.upload-placeholder-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 10px;
+}
+
+.upload-icon {
+  font-size: 32px;
+}
+
+.upload-placeholder-box p {
+  font-size: 13px;
+  color: var(--toss-text-sub);
+  margin: 0;
+  font-weight: 600;
+}
+
+.toss-btn-secondary {
+  background: #eef5ff;
+  color: var(--toss-blue);
+  padding: 8px 18px;
+  border-radius: var(--toss-radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.toss-btn-secondary:hover {
+  background: #d0e2ff;
+}
+
+.preview-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-height: 280px;
+  overflow: hidden;
+  border-radius: var(--toss-radius-sm);
+}
+
+.preview-img-full {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: var(--toss-radius-sm);
+}
+
+.reselect-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.toss-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--toss-radius-md);
+  border: 1.5px solid var(--toss-border-dark);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--toss-text-main);
+  outline: none;
+}
+
+.toss-input:focus {
+  border-color: var(--toss-blue);
+  box-shadow: 0 0 0 3px rgba(49, 130, 246, 0.18);
+}
+
+.form-error-alert {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: var(--toss-radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.submit-photo-btn {
+  margin-top: 4px;
+}
+
+/* 🏆 좋아요 랭킹 섹션 */
+.photo-ranking-section {
+  margin-bottom: 28px;
+}
+
+.section-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-title-bar h4 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin: 0;
+}
+
+.ranking-tip {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--toss-blue);
+  background: var(--toss-blue-light);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.ranking-carousel-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.ranking-item-card {
+  min-width: 180px;
+  max-width: 200px;
+  background: #ffffff;
+  border: 1px solid var(--toss-border-dark);
+  border-radius: var(--toss-radius-md);
+  padding: 10px;
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ranking-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rank-badge {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.rank-badge.gold {
+  background: #fff8e6;
+  color: #b77900;
+  border: 1px solid #ffe599;
+}
+
+.rank-badge.silver {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.rank-badge.bronze {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #ffedd5;
+}
+
+.rank-badge.normal {
+  background: #f2f4f6;
+  color: var(--toss-text-sub);
+}
+
+.ranking-like-tag {
+  font-size: 12px;
+  font-weight: 800;
+  color: #ef4444;
+}
+
+.ranking-thumb-box {
+  width: 100%;
+  height: 100px;
+  border-radius: var(--toss-radius-sm);
+  overflow: hidden;
+}
+
+.ranking-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ranking-card-info strong {
+  font-size: 13px;
+  color: var(--toss-text-main);
+  display: block;
+}
+
+.ranking-card-info p {
+  font-size: 11px;
+  color: var(--toss-text-muted);
+  margin: 2px 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 🖼️ 시민 인증 사진 피드 */
+.photo-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.photo-feed-card {
+  background: #ffffff;
+  border: 1px solid var(--toss-border-dark);
+  border-radius: var(--toss-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.photo-card-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: #eef5ff;
+}
+
+.photo-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-river-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.photo-card-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.photo-location-row span {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--toss-text-main);
+}
+
+.photo-date-row small {
+  font-size: 11px;
+  color: var(--toss-text-muted);
+}
+
+.photo-reactions-row {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--toss-border);
+}
+
+.reaction-btn {
+  flex: 1;
+  border: 1px solid var(--toss-border-dark);
+  background: #f2f4f6;
+  color: var(--toss-text-sub);
+  padding: 8px;
+  border-radius: var(--toss-radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.reaction-btn.like.active {
+  background: #fef2f2;
+  border-color: #f87171;
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.reaction-btn.dislike.active {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #334155;
+  font-weight: 800;
+}
+
+.reaction-btn:hover {
+  transform: translateY(-1px);
+}
+
 /* --- [11. Toss Frosted Floating Bottom Navigation] --- */
 .bottom-nav {
   position: fixed;

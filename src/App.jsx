@@ -151,13 +151,10 @@ function App() {
               />
             )}
 
-            {/* 탭 3: 친환경 플로깅 미션 */}
+            {/* 탭 3: 시민 하천 인증 사진 & 좋아요 랭킹 */}
             {activeTab === 'mission' && (
               <PloggingMissionTab
                 selectedRiver={selectedRiver}
-                previewImage={previewImage}
-                onImageUpload={handleImageUpload}
-                onCompleteMission={handleCompleteMission}
               />
             )}
 
