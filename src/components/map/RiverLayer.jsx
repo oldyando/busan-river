@@ -1,55 +1,22 @@
 import { useEffect } from 'react';
+import { getStoredPhotos } from '../../data/riverPhotoVerificationData';
 
 /**
  * 🏞️ RiverLayer 컴포넌트
- * Kakao Maps API의 Polyline 및 CustomOverlay/Marker를 이용해 부산 하천 레이어를 지도 위에 표시합니다.
- * 하천 선(Polyline) 또는 하천 명칭 뱃지를 클릭하면 해당 하천이 선택됩니다.
+ * - 인공적인 Polyline 하천 선 그리기를 완전히 제거하고, 카카오맵 본래의 실제 하천 지형을 100% 그대로 활용합니다.
+ * - 하천 대표 위치에 커스텀 마커(CustomOverlay: 🌊 하천명)를 표시하고, 클릭 시 지도 이동 및 상세 정보를 엽니다.
+ * - 시민 인증 사진 데이터가 있는 경우 해당 위치에 시민 인증 마커(📍)를 지도 위에 표시합니다.
  */
 function RiverLayer({ map, riverList = [], onSelectRiver, selectedRiverId }) {
   useEffect(() => {
-    if (!map || !window.kakao || !window.kakao.maps || !riverList.length) return;
+    if (!map || !window.kakao || !window.kakao.maps) return;
 
-    const polylines = [];
     const overlays = [];
 
+    // 1. 하천 대표 위치 커스텀 마커 생성 (Polyline 생성 제거)
     riverList.forEach((river) => {
       const isSelected = river.id === selectedRiverId;
 
-      // 1. 하천 Polyline 경로 생성
-      if (river.path && river.path.length > 0) {
-        const linePath = river.path.map(
-          (coord) => new window.kakao.maps.LatLng(coord.lat, coord.lng)
-        );
-
-        const polyline = new window.kakao.maps.Polyline({
-          map: map,
-          path: linePath,
-          strokeWeight: isSelected ? 8 : 6,
-          strokeColor: isSelected ? '#F04438' : '#3182F6',
-          strokeOpacity: isSelected ? 1.0 : 0.85,
-          strokeStyle: 'solid'
-        });
-
-        window.kakao.maps.event.addListener(polyline, 'click', () => {
-          if (onSelectRiver) onSelectRiver(river);
-        });
-
-        window.kakao.maps.event.addListener(polyline, 'mouseover', () => {
-          if (river.id !== selectedRiverId) {
-            polyline.setOptions({ strokeColor: '#1B64DA', strokeWeight: 8 });
-          }
-        });
-
-        window.kakao.maps.event.addListener(polyline, 'mouseout', () => {
-          if (river.id !== selectedRiverId) {
-            polyline.setOptions({ strokeColor: '#3182F6', strokeWeight: 6 });
-          }
-        });
-
-        polylines.push(polyline);
-      }
-
-      // 2. 하천 중심 위치 CustomOverlay 뱃지 생성
       if (river.center) {
         const content = document.createElement('div');
         content.className = `river-map-marker ${isSelected ? 'active' : ''}`;
@@ -60,6 +27,11 @@ function RiverLayer({ map, riverList = [], onSelectRiver, selectedRiverId }) {
 
         content.addEventListener('click', (e) => {
           e.stopPropagation();
+
+          // 지도 중심을 대표 위치로 부드럽게 이동 (panTo)
+          const moveLatLon = new window.kakao.maps.LatLng(river.center.lat, river.center.lng);
+          map.panTo(moveLatLon);
+
           if (onSelectRiver) onSelectRiver(river);
         });
 
@@ -75,8 +47,42 @@ function RiverLayer({ map, riverList = [], onSelectRiver, selectedRiverId }) {
       }
     });
 
+    // 2. 시민 인증 사진 위치 마커 오버레이 (탭 3 데이터 연동)
+    try {
+      const photos = getStoredPhotos();
+      photos.forEach((photo) => {
+        // 해당 하천의 대표 위치 근처 오프셋 마커 배치
+        const matchedRiver = riverList.find((r) => r.name === photo.riverName);
+        if (matchedRiver && matchedRiver.center) {
+          const content = document.createElement('div');
+          content.className = 'citizen-map-marker';
+          content.innerHTML = `
+            <div className="citizen-marker-pin" title="${photo.location}">📍</div>
+          `;
+
+          content.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const moveLatLon = new window.kakao.maps.LatLng(matchedRiver.center.lat, matchedRiver.center.lng);
+            map.panTo(moveLatLon);
+            if (onSelectRiver) onSelectRiver(matchedRiver);
+          });
+
+          const overlay = new window.kakao.maps.CustomOverlay({
+            position: new window.kakao.maps.LatLng(matchedRiver.center.lat, matchedRiver.center.lng),
+            content: content,
+            xAnchor: -0.2,
+            yAnchor: 1.0
+          });
+
+          overlay.setMap(map);
+          overlays.push(overlay);
+        }
+      });
+    } catch (e) {
+      console.warn('Citizen markers render error:', e);
+    }
+
     return () => {
-      polylines.forEach((p) => p.setMap(null));
       overlays.forEach((o) => o.setMap(null));
     };
   }, [map, riverList, selectedRiverId, onSelectRiver]);

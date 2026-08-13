@@ -41,11 +41,15 @@ function AllianceMapTab({ selectedRiver, coupons, onDownloadCoupon }) {
     setSelectedRiverData(null);
   };
 
-  const shopList = [
-    { name: `${selectedRiver} 다리옆 소상공인 카페`, benefit: '아메리카노 1,000원 즉시 할인' },
-    { name: `${selectedRiver} 강변 착한 소상공인 국수집`, benefit: '식사 주문 시 사이드 만두 무료' },
-    { name: `${selectedRiver} 골목 동네 상생 베이커리`, benefit: '당일 제빵 전 품목 10% 우대 할인' }
+  const defaultShops = [
+    { name: `${selectedRiver || '부산 하천'} 수변 소상공인 카페`, benefit: '아메리카노 1,000원 즉시 할인' },
+    { name: `${selectedRiver || '부산 하천'} 강변 착한 소상공인 국수집`, benefit: '식사 주문 시 사이드 만두 무료' },
+    { name: `${selectedRiver || '부산 하천'} 골목 동네 상생 베이커리`, benefit: '당일 제빵 전 품목 10% 우대 할인' }
   ];
+
+  const currentShops = selectedRiverData?.shops && selectedRiverData.shops.length > 0
+    ? selectedRiverData.shops
+    : defaultShops;
 
   return (
     <div className="tab-panel">
@@ -84,9 +88,9 @@ function AllianceMapTab({ selectedRiver, coupons, onDownloadCoupon }) {
         </div>
       </div>
 
-      <h3>🛍️ {selectedRiver} 소상공인 상생 우대 쿠폰</h3>
+      <h3>🛍️ {selectedRiverData?.name || selectedRiver || '부산 하천'} 수변 소상공인 상생 우대 쿠폰</h3>
       <div className="coupon-list">
-        {shopList.map((shop, idx) => (
+        {currentShops.map((shop, idx) => (
           <div className="coupon-item" key={idx}>
             <div>
               <strong>{shop.name}</strong>
