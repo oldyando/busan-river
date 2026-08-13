@@ -1,0 +1,227 @@
+/* --- [1. 글로벌 뷰포트 레이아웃 락: 가로 스크롤 원천 숨김] --- */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important; 
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f5f9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box !important;
+}
+
+/* --- [2. 모바일 디바이스 가로 폭 절대 고정 컨테이너] --- */
+.mobile-app {
+  width: 100% !important;
+  max-width: 450px !important; 
+  margin: 0 auto !important;   
+  min-height: 100vh;
+  background: #ffffff;
+  padding-bottom: 90px; 
+  position: relative;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden !important;
+}
+
+/* --- [3. 상단 헤더 및 드롭다운 인라인 정렬] --- */
+.app-header {
+  background: #ffffff;
+  padding: 16px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #e2e8f0;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.app-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.office-tag {
+  display: inline-block;
+  font-size: 11px;
+  background: #eff6ff;
+  color: #1a56db;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+.river-selector-container select {
+  padding: 12px 16px; 
+  border-radius: 12px; 
+  border: 1px solid #cbd5e1; 
+  font-size: 13px; 
+  font-weight: 700; 
+  width: 100%; 
+  background: #f8fafc; 
+  color: #1e3a8a;
+  outline: none;
+  margin-top: 4px;
+}
+
+/* --- [4. 본문 프레임 및 페이드 애니메이션] --- */
+.app-main {
+  padding: 16px;
+  flex: 1;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.tab-panel {
+  animation: appFadeIn 0.3s ease;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+@keyframes appFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- [5. 탭 1: 실시간 하천 비주얼 컴포넌트] --- */
+.card {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.card h3 { margin: 0 0 14px 0; font-size: 14px; font-weight: 700; }
+.safety-alert-banner {
+  background: #fff5f5;
+  border: 1px solid #fee2e2;
+  color: #ef4444;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.status-item:last-child { border-bottom: none; }
+.status-item .label { font-size: 13px; color: #6b7280; }
+.status-item .value { font-size: 14px; font-weight: 600; }
+.badge-green { color: #10b981; font-weight: 700; }
+.info-card h4 { margin: 0 0 6px 0; font-size: 13px; color: #1a56db; }
+.info-card p { margin: 0; font-size: 12px; color: #6b7280; line-height: 1.5; }
+
+/* --- [6. 탭 2: 상생 지도 및 인라인 쿠폰] --- */
+.map-placeholder {
+  background: #f1f5f9;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 20px;
+  border: 1px dashed #cbd5e1;
+}
+.map-placeholder span { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+.coupon-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+.coupon-item strong { font-size: 13px; color: #1f2937; }
+.coupon-item p { margin: 2px 0 0 0; font-size: 12px; color: #1a56db; font-weight: 600; }
+.coupon-item button {
+  background: #1a56db; color: white; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+}
+
+/* --- [7. 탭 3: 친환경 플로깅 미션 최적화] --- */
+.text-center { text-align: center; }
+.sub-text { font-size: 12px; color: #6b7280; line-height: 1.5; margin-bottom: 16px; padding: 0 8px; word-break: keep-all; }
+.upload-container {
+  border: 2px dashed #e2e8f0;
+  padding: 30px 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.upload-placeholder { font-size: 12px; color: #6b7280; font-weight: 500; }
+.preview-img { width: 100%; max-width: 260px; height: auto; max-height: 140px; object-fit: cover; border-radius: 12px; }
+#file-upload { display: none; }
+.btn-upload { background: #1f2937; color: white; padding: 10px 20px; border-radius: 10px; display: inline-block; cursor: pointer; font-size: 12px; font-weight: 600; margin-top: 12px; }
+.mission-success-box {
+  background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 12px; margin-top: 14px; width: 100% !important; box-sizing: border-box !important;
+}
+
+/* --- [8. 탭 4: 주민 제보함 블랙 텍스트 패키지] --- */
+.office-box { background: #eff6ff; border-radius: 12px; padding: 14px; font-size: 12px; margin-bottom: 16px; line-height: 1.5; }
+.office-box strong { color: #1a56db; display: block; margin-bottom: 2px; }
+.board-form { display: flex; gap: 8px; margin-bottom: 16px; }
+.board-form input { 
+  flex: 1; 
+  padding: 12px; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 12px; 
+  font-size: 13px; 
+  background-color: #f8fafc !important; 
+  color: #000000 !important; /* [보완] 입력 글씨 딥블랙 강제 지정 */
+  font-weight: 600 !important;
+}
+.board-form input::placeholder { color: #94a3b8 !important; }
+.board-form button { background: #1a56db; color: white; border: none; padding: 0 16px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+.feed-item { background: #ffffff; padding: 12px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #f1f5f9; }
+.feed-item p { margin: 0 0 4px 0; font-size: 13px; color: #1f2937; }
+.feed-item span { font-size: 11px; color: #6b7280; }
+
+/* --- [9. 하단 프리미엄 내비게이션 바] --- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid #e2e8f0;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottom-nav button {
+  flex: 1; border: none; background: none; font-size: 11px; font-weight: 700; color: #9ca3af; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.bottom-nav button.active { color: #1a56db; background: #eff6ff; }
+.loading-box { text-align: center; padding: 40px 0; font-weight: 700; color: #1a56db; font-size: 13px; }
