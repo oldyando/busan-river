@@ -37,7 +37,7 @@ export default async function handler(req, res) {
   if (!apiKey) {
     const errorBody = {
       ok: false,
-      error: 'BUSAN_RIVER_API_KEY가 설정되지 않았습니다. Vercel 프로젝트 환경 변수를 확인해주세요.'
+      error: 'Vercel 프로젝트 환경 변수(Environment Variables)에 BUSAN_RIVER_API_KEY가 설정되지 않았습니다. Vercel 대시보드 Settings -> Environment Variables에서 등록해 주세요.'
     };
     if (res.status) res.status(500).json(errorBody);
     else {
