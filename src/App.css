@@ -1686,6 +1686,307 @@
   100% { transform: scale(1); }
 }
 
+/* --- [14. River AI Analysis Component Toss Styles] --- */
+.ai-analysis-card {
+  background: var(--toss-card-bg);
+  border: 1.5px solid rgba(49, 130, 246, 0.25);
+  border-radius: var(--toss-radius-lg);
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(49, 130, 246, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ai-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ai-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-icon {
+  font-size: 22px;
+}
+
+.ai-title-group h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin: 0;
+}
+
+.ai-badge {
+  font-size: 11px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3182f6 0%, #1b64da 100%);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.ai-subtitle {
+  font-size: 13px;
+  color: var(--toss-text-sub);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ai-controls-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fafbfc;
+  padding: 16px;
+  border-radius: var(--toss-radius-md);
+  border: 1px solid var(--toss-border);
+}
+
+.ai-select-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ai-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toss-text-main);
+}
+
+.ai-analyze-btn {
+  margin-top: 4px;
+}
+
+.ai-notice-box {
+  padding: 14px 16px;
+  border-radius: var(--toss-radius-md);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ai-notice-box.empty {
+  background: #fff8e6;
+  border: 1px solid #ffe599;
+  color: #b77900;
+}
+
+.ai-notice-box.error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+}
+
+.ai-loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  gap: 12px;
+  background: #f4f8ff;
+  border-radius: var(--toss-radius-md);
+  border: 1px dashed rgba(49, 130, 246, 0.4);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e8eb;
+  border-top-color: var(--toss-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.ai-loading-box p {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toss-blue);
+  margin: 0;
+  text-align: center;
+}
+
+.ai-result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 10px;
+  border-top: 1px solid var(--toss-border);
+}
+
+.result-main-title h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--toss-blue);
+  margin: 0;
+}
+
+.ai-section {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: var(--toss-radius-md);
+  border: 1px solid var(--toss-border-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ai-section-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin: 0;
+}
+
+.summary-text {
+  font-size: 14px;
+  color: var(--toss-text-main);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 600;
+}
+
+.bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bullet-list li {
+  font-size: 13px;
+  color: var(--toss-text-main);
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.bullet-list.suggestions li {
+  color: var(--toss-blue-hover);
+  font-weight: 700;
+}
+
+.issues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.issue-card-item {
+  background: #fafbfc;
+  padding: 12px 14px;
+  border-radius: var(--toss-radius-sm);
+  border: 1px solid var(--toss-border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.issue-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.issue-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+}
+
+.issue-reason {
+  font-size: 12px;
+  color: var(--toss-text-sub);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.priority-tag {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.priority-tag.high {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.priority-tag.medium {
+  background: #fff8e6;
+  color: #b77900;
+  border: 1px solid #ffe599;
+}
+
+.priority-tag.low {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+.sentiment-gauges {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sentiment-bar-container {
+  width: 100%;
+  height: 24px;
+  background: #e5e8eb;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.sentiment-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.4s ease;
+  white-space: nowrap;
+  padding: 0 4px;
+}
+
+.sentiment-segment.positive {
+  background: #22c55e;
+}
+
+.sentiment-segment.neutral {
+  background: #94a3b8;
+}
+
+.sentiment-segment.negative {
+  background: #ef4444;
+}
+
+.sentiment-labels {
+  display: flex;
+  justify-content: space-around;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pos-label { color: #16a34a; }
+.neu-label { color: #64748b; }
+.neg-label { color: #dc2626; }
+
 /* --- [11. Toss Frosted Floating Bottom Navigation] --- */
 .bottom-nav {
   position: fixed;

@@ -3,6 +3,7 @@ import RiverEvaluationForm from './RiverEvaluationForm';
 import RiverEvaluationResult from './RiverEvaluationResult';
 import RiverComparisonTable from './RiverComparisonTable';
 import CitizenReviewFeed from './CitizenReviewFeed';
+import RiverAIAnalysis from './RiverAIAnalysis';
 import {
   RIVERS_LIST,
   getStoredReviews,
@@ -148,6 +149,11 @@ function CommunityBoardTab({ selectedRiver }) {
           onToggleLike={handleToggleLike}
           likedReviewIds={likedReviewIds}
         />
+      </div>
+
+      {/* 5. 🤖 탭 4 최하단 Gemini AI 하천 분석 컴포넌트 */}
+      <div className="ai-analysis-section" style={{ marginTop: '24px' }}>
+        <RiverAIAnalysis selectedRiverId={currentRiverId} />
       </div>
     </div>
   );
