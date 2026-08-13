@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import KakaoMap from './KakaoMap';
 import RiverLayer from './RiverLayer';
 import RiverInfoCard from './RiverInfoCard';
-import { RIVER_DATA, getRiverByName } from '../data/riverData';
-import { DEFAULT_MAP_CONFIG } from '../config/mapConfig';
+import { RIVER_DATA, getRiverByName } from '../../data/riverData';
+import { DEFAULT_MAP_CONFIG } from '../../config/mapConfig';
 
 /**
  * 🗺️ 탭 2: 부산 하천 지도 & 소상공인 상생 쿠폰

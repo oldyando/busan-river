@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { riverMockData } from './data/riverMockData';
-import RiverStatusTab from './components/RiverStatusTab';
-import AllianceMapTab from './components/AllianceMapTab';
-import PloggingMissionTab from './components/PloggingMissionTab';
-import CommunityBoardTab from './components/CommunityBoardTab';
+import RiverStatusTab from './components/status/RiverStatusTab';
+import AllianceMapTab from './components/map/AllianceMapTab';
+import PloggingMissionTab from './components/mission/PloggingMissionTab';
+import CommunityBoardTab from './components/board/CommunityBoardTab';
 
 function App() {
   // --- [상태 관리: State] ---

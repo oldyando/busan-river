@@ -1,5 +1,5 @@
 import React from 'react';
-import { riverMockData } from '../data/riverMockData';
+import { riverMockData } from '../../data/riverMockData';
 
 /**
  * 🌊 탭 1: 실시간 하천 상태 및 환경 지수

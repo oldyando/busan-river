@@ -599,6 +599,585 @@
   color: var(--toss-blue);
 }
 
+/* --- [12. 탭 4: 부산하천 소통함 평가 시스템 UI] --- */
+.board-header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.eval-sub-nav {
+  display: flex;
+  background: #f2f4f6;
+  padding: 4px;
+  border-radius: var(--toss-radius-md);
+  gap: 4px;
+  margin: 12px 0 16px 0;
+}
+
+.eval-nav-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toss-text-sub);
+  border-radius: var(--toss-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.eval-nav-btn.active {
+  background: #ffffff;
+  color: var(--toss-blue);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-weight: 800;
+}
+
+/* --- Evaluation Form Component --- */
+.eval-form-card {
+  background: var(--toss-card-bg);
+  border-radius: var(--toss-radius-lg);
+  padding: 24px;
+  border: 1px solid var(--toss-border-dark);
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eval-form-header h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin-bottom: 6px;
+}
+
+.eval-form-header p {
+  font-size: 13px;
+  color: var(--toss-text-sub);
+  line-height: 1.5;
+}
+
+.eval-main-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+}
+
+.toss-select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--toss-radius-md);
+  border: 1.5px solid var(--toss-border-dark);
+  font-size: 14px;
+  font-weight: 700;
+  background: #ffffff;
+  color: var(--toss-text-main);
+  outline: none;
+  cursor: pointer;
+}
+
+.criteria-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #fafbfc;
+  padding: 16px;
+  border-radius: var(--toss-radius-md);
+  border: 1px solid var(--toss-border);
+}
+
+.criterion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--toss-border);
+}
+
+.criterion-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.criterion-info strong {
+  font-size: 14px;
+  color: var(--toss-text-main);
+  font-weight: 700;
+  display: block;
+}
+
+.criterion-info span {
+  font-size: 12px;
+  color: var(--toss-text-muted);
+}
+
+.star-rating-box {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #e5e8eb;
+  cursor: pointer;
+  padding: 0 2px;
+  transition: transform 0.1s ease, color 0.1s ease;
+}
+
+.star-btn.active {
+  color: #ffb800;
+}
+
+.star-btn:hover {
+  transform: scale(1.2);
+}
+
+.score-num-badge {
+  font-size: 12px;
+  font-weight: 800;
+  color: #b77900;
+  background: #fff8e6;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 6px;
+}
+
+.toss-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--toss-radius-md);
+  border: 1.5px solid var(--toss-border-dark);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--toss-text-main);
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.toss-textarea:focus {
+  border-color: var(--toss-blue);
+  box-shadow: 0 0 0 3px rgba(49, 130, 246, 0.18);
+}
+
+.toss-btn-primary {
+  background: var(--toss-blue);
+  color: #ffffff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: var(--toss-radius-md);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.toss-btn-primary:hover {
+  background: var(--toss-blue-hover);
+}
+
+/* --- Evaluation Result Component --- */
+.eval-result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.result-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--toss-card-bg);
+  padding: 18px 20px;
+  border-radius: var(--toss-radius-lg);
+  border: 1px solid var(--toss-border-dark);
+}
+
+.river-type-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--toss-blue-light);
+  color: var(--toss-blue);
+  padding: 3px 8px;
+  border-radius: 10px;
+
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.result-river-info h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin: 0;
+}
+
+.toss-select-sm {
+  padding: 8px 12px;
+  border-radius: var(--toss-radius-sm);
+  border: 1.5px solid var(--toss-border-dark);
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+  background: #ffffff;
+}
+
+.stats-summary-card {
+  background: #ffffff;
+  border-radius: var(--toss-radius-lg);
+  padding: 24px;
+  border: 1px solid var(--toss-border-dark);
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.overall-score-box {
+  text-align: center;
+  background: linear-gradient(135deg, #f4f8ff 0%, #eef5ff 100%);
+  padding: 20px;
+  border-radius: var(--toss-radius-md);
+  border: 1px solid rgba(49, 130, 246, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.overall-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toss-text-muted);
+}
+
+.overall-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.overall-num {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--toss-blue);
+  letter-spacing: -1px;
+}
+
+.overall-max {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--toss-text-muted);
+}
+
+.overall-stars {
+  font-size: 20px;
+  color: #ffb800;
+  letter-spacing: 2px;
+}
+
+.total-count-tag {
+  font-size: 12px;
+  color: var(--toss-text-sub);
+  margin-top: 4px;
+}
+
+.criteria-averages-box h5 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin-bottom: 14px;
+}
+
+.criterion-avg-row {
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.criterion-avg-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.criterion-avg-label strong {
+  font-size: 14px;
+  color: var(--toss-text-main);
+  font-weight: 700;
+}
+
+.criterion-avg-label span {
+  font-size: 12px;
+  color: var(--toss-text-muted);
+}
+
+.criterion-avg-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stars-str {
+  color: #ffb800;
+  font-size: 14px;
+}
+
+.score-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+}
+
+.score-progress-bg {
+  width: 100%;
+  height: 8px;
+  background: #e5e8eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-progress-fill {
+  height: 100%;
+  background: var(--toss-blue);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.reviews-feed-section h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin-bottom: 12px;
+}
+
+.reviews-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-card-item {
+  background: var(--toss-card-bg);
+  border: 1px solid var(--toss-border-dark);
+  padding: 16px 18px;
+  border-radius: var(--toss-radius-md);
+  box-shadow: var(--toss-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--toss-text-main);
+}
+
+.review-date {
+  font-size: 11px;
+  color: var(--toss-text-muted);
+  margin-left: 6px;
+}
+
+.review-score-badge {
+  background: #fff8e6;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #b77900;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.review-comment-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--toss-text-main);
+  line-height: 1.5;
+}
+
+.review-scores-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.score-chip {
+  font-size: 11px;
+  font-weight: 600;
+  background: #f2f4f6;
+  color: var(--toss-text-sub);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.empty-reviews-box {
+  text-align: center;
+  padding: 30px;
+  background: #fafbfc;
+  border-radius: var(--toss-radius-md);
+  color: var(--toss-text-sub);
+  font-size: 13px;
+  border: 1px dashed var(--toss-border-dark);
+}
+
+/* --- Comparison Table Component --- */
+.comparison-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.comparison-header h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--toss-text-main);
+  margin-bottom: 4px;
+}
+
+.comparison-header p {
+  font-size: 13px;
+  color: var(--toss-text-sub);
+}
+
+.table-responsive-box {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--toss-radius-lg);
+  border: 1px solid var(--toss-border-dark);
+  box-shadow: var(--toss-shadow-sm);
+  background: #ffffff;
+}
+
+.toss-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+  min-width: 580px;
+}
+
+.toss-comparison-table th {
+  background: #fafbfc;
+  padding: 14px 12px;
+  font-weight: 800;
+  color: var(--toss-text-sub);
+  border-bottom: 1.5px solid var(--toss-border-dark);
+  white-space: nowrap;
+}
+
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.th-sortable:hover {
+  color: var(--toss-blue);
+  background: var(--toss-blue-light);
+}
+
+.th-sortable.active {
+  color: var(--toss-blue);
+  background: var(--toss-blue-light);
+}
+
+.toss-comparison-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--toss-border);
+  color: var(--toss-text-main);
+  white-space: nowrap;
+}
+
+.tr-interactive {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tr-interactive:hover {
+  background: #f4f8ff;
+}
+
+.type-chip {
+  font-size: 11px;
+  font-weight: 700;
+  background: #eef5ff;
+  color: var(--toss-blue);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.overall-score-badge {
+  font-weight: 800;
+  color: #b77900;
+  background: #fff8e6;
+  padding: 4px 10px;
+  border-radius: 14px;
+}
+
+.score-tag {
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.score-tag.high {
+  background: var(--toss-success-bg);
+  color: var(--toss-success);
+}
+
+.score-tag.mid {
+  background: var(--toss-warning-bg);
+  color: var(--toss-warning);
+}
+
+.score-tag.low {
+  background: var(--toss-danger-bg);
+  color: var(--toss-danger);
+}
+
+.comparison-footer-tip {
+  font-size: 12px;
+  color: var(--toss-text-muted);
+  font-weight: 500;
+}
+
 .map-placeholder {
   background: linear-gradient(135deg, #eef5ff 0%, #e6f0ff 100%);
   height: 200px;
