@@ -124,14 +124,17 @@ function App() {
       </header>
 
       <main className="app-main">
-        <div className="river-selector-container">
-          <select value={selectedRiver} onChange={(e) => setSelectedRiver(e.target.value)}>
-            <option value="온천천">🌊 온천천 (동래/연제/금정)</option>
-            <option value="수영강">🏙️ 수영강 (해운대/수영)</option>
-            <option value="삼락천">🌿 삼락천 (사상구)</option>
-            <option value="대천천">⛰️ 대천천 (북구)</option>
-          </select>
-        </div>
+        {/* 탭 1에서만 상단 하천 선택 드롭다운 박스 노출 (탭 2, 3, 4 제외) */}
+        {activeTab === 'status' && (
+          <div className="river-selector-container">
+            <select value={selectedRiver} onChange={(e) => setSelectedRiver(e.target.value)}>
+              <option value="온천천">🌊 온천천 (동래/연제/금정)</option>
+              <option value="수영강">🏙️ 수영강 (해운대/수영)</option>
+              <option value="삼락천">🌿 삼락천 (사상구)</option>
+              <option value="대천천">⛰️ 대천천 (북구)</option>
+            </select>
+          </div>
+        )}
 
         {loading ? (
           <div className="loading-box">🌊 {selectedRiver} 실시간 데이터 동기화 중...</div>
